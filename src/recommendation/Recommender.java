@@ -17,7 +17,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class Recommender {
-	private int graphCount;
 	
 	private List<Graph> originalGraphList;
 	
@@ -25,8 +24,8 @@ public class Recommender {
 	
 	public Recommender(String seedQuery, String graphMLFileFolderPath, String clusterResultFolderPath){
 		originalGraphList = new ArrayList<>();
-		getOriginalGraphList(graphMLFileFolderPath, clusterResultFolderPath);
-		synthesizer = new Synthesizer(seedQuery);
+		int graphCount = getOriginalGraphList(graphMLFileFolderPath, clusterResultFolderPath);
+		synthesizer = new Synthesizer(seedQuery, graphCount);
 		synthesizer.synthesize(originalGraphList);
 		
 	}
@@ -36,7 +35,8 @@ public class Recommender {
 	 * @param graphMLFileFolderPath
 	 * @param clusterResultFolderPath
 	 */
-	private void getOriginalGraphList(String graphMLFileFolderPath, String clusterResultFolderPath){
+	private int getOriginalGraphList(String graphMLFileFolderPath, String clusterResultFolderPath){
+		int graphCount = 0;
 		File graphMLFileFolder = new File(graphMLFileFolderPath);
 		File[] fileList = graphMLFileFolder.listFiles();
 		int fileCount = 0;
@@ -120,6 +120,7 @@ public class Recommender {
 			}
 		}
 		graphCount /= fileCount;
+		return graphCount;
 	}
 	
 	
@@ -128,6 +129,5 @@ public class Recommender {
 		String graphMLFileFolderPath = "/Users/liuxl/Desktop/recommendation/phase4/graphml/task2/";
 		String clusterResultFolderPath = "/Users/liuxl/Desktop/recommendation/phase4/cluster result/tree/人工/task2/";
 		Recommender recommender = new Recommender("", graphMLFileFolderPath, clusterResultFolderPath);
-		System.out.println(recommender.graphCount);
 	}
 }
