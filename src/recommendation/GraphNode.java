@@ -97,8 +97,10 @@ public class GraphNode {
 	 * @return
 	 */
 	public double compuleNodeSimularity(GraphNode graphNode){
-		int count = 0;
-		int sum = 0;
+		int count1 = 0;
+		int sum1 = 0;
+		int count2 = 0;
+		int sum2 = 0;
 		List<String> contentList = graphNode.getContentList();
 		Map<String, Integer> subContentCountMap1 = new HashMap<>();
 		Map<String, Integer> subContentCountMap2 = new HashMap<>();
@@ -107,7 +109,7 @@ public class GraphNode {
 			for(int i = 0;i < subTexts.length;i++){
 				String subText = subTexts[i];
 				if (!subText.equals("") && !subText.equals(" ")) {
-					sum++;
+					sum1++;
 					if(subContentCountMap1.containsKey(subText)){
 						subContentCountMap1.put(subText, subContentCountMap1.get(subText) + 1);
 					}else{
@@ -121,6 +123,7 @@ public class GraphNode {
 			for(int i = 0;i < subTexts.length;i++){
 				String subText = subTexts[i];
 				if (!subText.equals("") && !subText.equals(" ")) {
+					sum2++;
 					if(subContentCountMap2.containsKey(subText)){
 						subContentCountMap2.put(subText, subContentCountMap2.get(subText) + 1);
 					}else{
@@ -133,7 +136,7 @@ public class GraphNode {
 		for(Map.Entry<String, Integer> entry1 : subContentCountMap1.entrySet()){
 			String content1 = entry1.getKey();
 			if(subContentCountMap2.containsKey(content1)){
-				count++;
+				count1++;
 				if(subContentCountMap2.get(content1) == 0){
 					subContentCountMap2.remove(content1);
 				}else{
@@ -142,7 +145,19 @@ public class GraphNode {
 			}
 		}
 		
-		return (double)count / sum;
+		for(Map.Entry<String, Integer> entry2 : subContentCountMap2.entrySet()){
+			String content2 = entry2.getKey();
+			if(subContentCountMap1.containsKey(content2)){
+				count2++;
+				if(subContentCountMap1.get(content2) == 0){
+					subContentCountMap1.remove(content2);
+				}else{
+					subContentCountMap1.put(content2, subContentCountMap1.get(content2) - 1);
+				}
+			}
+		}
+		
+		return ((double)count1 / sum1 + (double)count2 / sum2) / 2;
 	}
 	
 	private String[] getSubTexts(String s){

@@ -27,13 +27,14 @@ public class Recommender {
 		int graphCount = getOriginalGraphList(graphMLFileFolderPath, clusterResultFolderPath);
 		synthesizer = new Synthesizer(seedQuery, graphCount);
 		synthesizer.synthesize(originalGraphList);
-		
+		System.out.println(synthesizer.getGraphsWithoutSeedQuery().size());
 	}
 	
 	/**
 	 * graph初始化，每个graph为一个子任务子图，不一定连通。
 	 * @param graphMLFileFolderPath
 	 * @param clusterResultFolderPath
+	 * @return 平均子任务个数。
 	 */
 	private int getOriginalGraphList(String graphMLFileFolderPath, String clusterResultFolderPath){
 		int graphCount = 0;
@@ -111,7 +112,7 @@ public class Recommender {
 						}
 						GraphNode currentNode = contentNodeMap.get(s);
 						if(currentNode == null) throw new Exception("Wrong key word : " + s);
-						graph.addNode(currentNode);
+						graph.addNode(currentNode, "1", Graph.SIMILARITY_THRESHOLD);
 					}
 				}catch(Exception e){
 					e.printStackTrace();
