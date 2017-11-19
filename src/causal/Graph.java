@@ -1,4 +1,4 @@
-package recommendation;
+package causal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -95,6 +95,26 @@ public class Graph {
 		
 		for(String content : contentList){
 			contentNodeMap.put(content, graphNode);
+		}
+	}
+	
+	/**
+	 * 剪掉连向外界的边。
+	 */
+	public void cutEdge(){
+		for(GraphEdge graphEdge : edgeList){
+			GraphNode sourceNode = graphEdge.getSourceNode();
+			GraphNode targetNode = graphEdge.getTargetNode();
+			if(!nodeList.contains(sourceNode) || !nodeList.contains(targetNode)){
+				try {
+					sourceNode.removeOutEdge(graphEdge);
+					targetNode.removeInEdge(graphEdge);
+					edgeList.remove(graphEdge);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 	

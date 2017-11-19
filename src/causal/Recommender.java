@@ -1,4 +1,4 @@
-package recommendation;
+package causal;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -27,7 +27,7 @@ public class Recommender {
 		int graphCount = getOriginalGraphList(graphMLFileFolderPath, clusterResultFolderPath);
 		synthesizer = new Synthesizer(seedQuery, graphCount);
 		synthesizer.synthesize(originalGraphList);
-		System.out.println(synthesizer.getGraphsWithoutSeedQuery().size());
+		System.out.println("");
 	}
 	
 	/**
@@ -129,6 +129,6 @@ public class Recommender {
 	public static void main(String[] args){
 		String graphMLFileFolderPath = "/Users/liuxl/Desktop/recommendation/phase4/graphml/task2/";
 		String clusterResultFolderPath = "/Users/liuxl/Desktop/recommendation/phase4/cluster result/tree/人工/task2/";
-		Recommender recommender = new Recommender("", graphMLFileFolderPath, clusterResultFolderPath);
+		Recommender recommender = new Recommender("pm2.5", graphMLFileFolderPath, clusterResultFolderPath);
 	}
 }

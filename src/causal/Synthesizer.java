@@ -1,4 +1,4 @@
-package recommendation;
+package causal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +68,12 @@ public class Synthesizer {
 			//把maxSubTaskGraph2删除出list
 			graphsWithoutSeedQuery.remove(maxSubTaskGraph2);
 			n--;
+		}
+		
+		//剪断n张图之间的连通。
+		graphWithSeedQuery.cutEdge();
+		for(Graph graph : graphsWithoutSeedQuery){
+			graph.cutEdge();
 		}
 	}
 

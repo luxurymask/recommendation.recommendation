@@ -1,4 +1,4 @@
-package recommendation;
+package causal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,6 +41,16 @@ public class GraphNode {
 	
 	public List<GraphEdge> getOutEdgeList(){
 		return this.outEdgeList;
+	}
+	
+	public void removeInEdge(GraphEdge graphEdge) throws Exception{
+		if(!inEdgeList.contains(graphEdge)) throw new Exception("Edge doesn't exists.");
+		inEdgeList.remove(graphEdge);
+	}
+	
+	public void removeOutEdge(GraphEdge graphEdge) throws Exception{
+		if(!outEdgeList.contains(graphEdge)) throw new Exception("Edge doesn't exists.");
+		outEdgeList.remove(graphEdge);
 	}
 	
 	public void addInEdge(GraphEdge graphEdge){

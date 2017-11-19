@@ -1,4 +1,4 @@
-package recommendation;
+package causal;
 
 public class GraphEdge {
 	private int edgeId;
