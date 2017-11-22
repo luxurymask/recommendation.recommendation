@@ -1,4 +1,4 @@
-package causal;
+package thematic;
 
 public class IdComputer {
 	public static IdComputer instance = new IdComputer();

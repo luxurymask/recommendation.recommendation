@@ -1,9 +1,12 @@
-package causal;
+package thematic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import accuracy.Util;
 
 public class Graph {
 	private List<GraphNode> nodeList = new ArrayList<>();
@@ -19,6 +22,7 @@ public class Graph {
 	 */
 	public void addNode(GraphNode graphNode, String percision, double threshold){
 		List<String> contentList = graphNode.getContentList();
+		
 		for(String content : contentList){
 			if(percision.equals("1")){
 				if(contentNodeMap.containsKey(content)){
@@ -102,20 +106,25 @@ public class Graph {
 	 * 剪掉连向外界的边。
 	 */
 	public void cutEdge(){
-		for(GraphEdge graphEdge : edgeList){
+		int count = 0;
+		Iterator<GraphEdge> iterator = edgeList.iterator();
+		while(iterator.hasNext()){
+			GraphEdge graphEdge = iterator.next();
 			GraphNode sourceNode = graphEdge.getSourceNode();
 			GraphNode targetNode = graphEdge.getTargetNode();
 			if(!nodeList.contains(sourceNode) || !nodeList.contains(targetNode)){
 				try {
 					sourceNode.removeOutEdge(graphEdge);
 					targetNode.removeInEdge(graphEdge);
-					edgeList.remove(graphEdge);
+					iterator.remove();
+					count++;
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
+		System.out.println(count + " edges has been cut.");
 	}
 	
 	public void addEdge(GraphEdge edge){
@@ -150,6 +159,34 @@ public class Graph {
 	}
 	
 	public boolean containsQuery(String seedQuery){
-		return contentNodeMap.containsKey(seedQuery);
+		for(Map.Entry<String, GraphNode> entry : contentNodeMap.entrySet()){
+			String content = entry.getKey();
+			if(Util.querySimulator(content, seedQuery) > Graph.SIMILARITY_THRESHOLD) return true;
+		}
+		return false;
 	}
+	
+	public double[] computeNodeRank(){
+
+		int n = nodeList.size();
+		boolean[][] graph = new boolean[n][n];
+		for(int i = 0;i < n;i++){
+			GraphNode graphNode1 = nodeList.get(i);
+			for(int j = 0;j < n;j++){
+				if(i == j) continue;
+				List<GraphEdge> outEdgeList = graphNode1.getOutEdgeList();
+				for(GraphEdge graphEdge : outEdgeList){
+					GraphNode targetNode = graphEdge.getTargetNode();
+					if(targetNode == nodeList.get(j)){
+						graph[j][i] = true;
+						break;
+					}
+				}
+			}
+		}
+		
+		double[] nodeRank = PageRankBasic.pageRank(n, graph);
+		
+		return nodeRank;
+    }
 }

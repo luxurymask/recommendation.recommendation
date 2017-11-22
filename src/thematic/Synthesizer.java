@@ -1,4 +1,4 @@
-package causal;
+package thematic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class Synthesizer {
 			List<GraphNode> subTaskNodeList = subTaskGraph.getNodeList();
 			List<GraphEdge> subTaskEdgeList = subTaskGraph.getEdgeList();
 			for (GraphNode subTaskNode : subTaskNodeList) {
-				graphWithSeedQuery.addNode(subTaskNode, "1", Graph.SIMILARITY_THRESHOLD);
+				graphWithSeedQuery.addNode(subTaskNode, "2", Graph.SIMILARITY_THRESHOLD);
 			}
 			for (GraphEdge subTaskEdge : subTaskEdgeList) {
 				graphWithSeedQuery.addEdge(subTaskEdge);
@@ -71,10 +71,10 @@ public class Synthesizer {
 		}
 		
 		//剪断n张图之间的连通。
-		graphWithSeedQuery.cutEdge();
-		for(Graph graph : graphsWithoutSeedQuery){
-			graph.cutEdge();
-		}
+//		graphWithSeedQuery.cutEdge();
+//		for(Graph graph : graphsWithoutSeedQuery){
+//			graph.cutEdge();
+//		}
 	}
 
 	public double computeSimilarity(Graph graph1, Graph graph2) {

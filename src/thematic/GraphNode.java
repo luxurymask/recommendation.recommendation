@@ -1,4 +1,4 @@
-package causal;
+package thematic;
 
 import java.util.ArrayList;
 import java.util.HashMap;

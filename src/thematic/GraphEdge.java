@@ -1,4 +1,4 @@
-package causal;
+package thematic;
 
 public class GraphEdge {
 	private int edgeId;
